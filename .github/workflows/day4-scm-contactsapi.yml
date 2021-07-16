@@ -125,6 +125,7 @@ jobs:
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
       - name: Deploy to dev environment
+        id: infrastructure
         run: >
           az deployment group create 
           -n contacts
@@ -173,6 +174,7 @@ jobs:
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
       - name: Deploy to test environment
+        id: infrastructure
         run: >
           az deployment group create 
           -n contacts 
