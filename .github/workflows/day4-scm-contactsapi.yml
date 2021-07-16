@@ -124,15 +124,13 @@ jobs:
           -l ${{ env.RESOURCE_GROUP_LOCATION }}
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
-      - name: Deploy infrastructure to dev environment
-        uses: azure/arm-deploy@v1.0.5
-        id: infrastructure
-        with:
-          resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
-          template: ./${{ env.BICEP_FILE_NAME }}
-          parameters: >
-            env=${{ env.ENV_NAME }} 
-            sqlUserPwd=${{ secrets.SQL_PASSWORD }}
+      - name: Deploy to dev environment
+        run: >
+          az deployment group create 
+          -n contacts
+          -g ${{ steps.createResourceGroupName.outputs.name }}
+          --template-file ./${{ env.BICEP_FILE_NAME }}
+          --parameters env=${{ env.ENV_NAME }} sqlUserPwd=${{ secrets.SQL_PASSWORD }}
 
       - name: Deploy SCM Contacts API
         uses: azure/webapps-deploy@v2
@@ -174,15 +172,13 @@ jobs:
           -l ${{ env.RESOURCE_GROUP_LOCATION }}
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
-      - name: Deploy infrastructure to test environment
-        uses: azure/arm-deploy@v1.0.5
-        id: infrastructure
-        with:
-          resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
-          template: ./${{ env.BICEP_FILE_NAME }}
-          parameters: >
-            env=${{ env.ENV_NAME }} 
-            sqlUserPwd=${{ secrets.SQL_PASSWORD }}
+      - name: Deploy to test environment
+        run: >
+          az deployment group create 
+          -n contacts 
+          -g ${{ steps.createResourceGroupName.outputs.name }}
+          --template-file ./${{ env.BICEP_FILE_NAME }}
+          --parameters env=${{ env.ENV_NAME }} sqlUserPwd=${{ secrets.SQL_PASSWORD }}
 
       - name: Deploy SCM Contacts API
         uses: azure/webapps-deploy@v2

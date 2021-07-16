@@ -175,13 +175,13 @@ jobs:
         with:
           name: drop
 
-      - name: Deploy infrastructure to dev environment
-        uses: azure/arm-deploy@v1
-        id: infrastructure
-        with:
-          resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
-          template: ./${{ env.BICEP_FILE_NAME }}
-          parameters: env=${{ env.ENV_NAME }}
+      - name: Deploy to dev environment
+        run: >
+          az deployment group create 
+          -n search 
+          -g ${{ steps.createResourceGroupName.outputs.name }}
+          --template-file ./${{ env.BICEP_FILE_NAME }}
+          --parameters env=${{ env.ENV_NAME }}
 
   deploy-searchapi-to-dev:
     runs-on: ubuntu-latest
@@ -263,13 +263,13 @@ jobs:
         with:
           name: drop
 
-      - name: Deploy infrastructure to test environment
-        uses: azure/arm-deploy@v1
-        id: infrastructure
-        with:
-          resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
-          template: ./${{ env.BICEP_FILE_NAME }}
-          parameters: env=${{ env.ENV_NAME }}
+      - name: Deploy to test environment
+        run: >
+          az deployment group create 
+          -n search
+          -g ${{ steps.createResourceGroupName.outputs.name }}
+          --template-file ./${{ env.BICEP_FILE_NAME }}
+          --parameters env=${{ env.ENV_NAME }}
 
   deploy-searchapi-to-test:
     runs-on: ubuntu-latest
