@@ -125,7 +125,7 @@ jobs:
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
       - name: Deploy infrastructure to dev environment
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v1.0.5
         id: infrastructure
         with:
           resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
@@ -175,7 +175,7 @@ jobs:
           -n ${{ steps.createResourceGroupName.outputs.name }}
 
       - name: Deploy infrastructure to test environment
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v1.0.5
         id: infrastructure
         with:
           resourceGroupName: ${{ steps.createResourceGroupName.outputs.name }}
